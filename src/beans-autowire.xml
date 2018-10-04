@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="address" class="com.autowire.Address" 
+		p:city="BeiJing" p:street="HuiLongGuan"></bean>
+		
+	<bean id="address2" class="com.autowire.Address" 
+		p:city="ShenYang" p:street="Sujiatun"></bean>	
+	
+	<bean id="car" class="com.autowire.Car" 
+		p:brand="AA" p:price="12000" > </bean>
+		
+	<!-- 手动装配 -->
+	<bean id="person1" class="com.autowire.Person"
+		p:name="Tom" p:address-ref="address" p:car-ref="car"></bean>
+	
+	<!-- 
+		使用autowire="byName"属性指定自动装配的方式，根据名字进行自动地装配 
+		byName 根据bean的名字和当前bean的setter风格的属性名称进行自动装配，若有匹配的，则进行自动装配，若没有匹配的，则不装配
+	-->
+	<bean id="person2" class="com.autowire.Person"
+		p:name="Tom" autowire="byName"></bean>
+		
+	<!-- 
+		autowire="byType" 是根据bean的类型和当前bean的属性进行自动装配 
+		若IOC容器中有1个以上的类型匹配的bean，则抛出异常
+	-->
+	<!-- <bean id="person3" class="com.autowire.Person"
+		p:name="Tom" autowire="byType"></bean> -->
+</beans>

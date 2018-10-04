@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!-- 
+		配置bean
+		class: bean的全类名，通过反射的方式在 IOC容器中创建Bean
+		所以要求Bean中必须有无参数的构造器
+		id: 标志容器中的bean, id唯一
+	 -->
+	<bean id="helloWorld" class="com.hello.HelloWorld">
+		<property name="username" value="Hello fj!!!" />
+		<property name="password" value="pass123456" />
+	</bean>
+	
+	<!-- 通过构造方法来配置bean的属性,使用构造器注入属性值可以指定参数的位置和参数的类型！用以区分重载的构造器！！！ -->
+	<bean id="helloWatch" class="com.hello.Watch">
+		<constructor-arg >
+			<value>雷达</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value><![CDATA[<上海^>]]></value>
+		</constructor-arg>
+		<constructor-arg value="10000"></constructor-arg>
+	</bean>
+</beans>

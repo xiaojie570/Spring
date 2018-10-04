@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-4.1.xsd
+	">
+	
+	<!-- 
+		配置bean
+		class: bean的全类名，通过反射的方式在 IOC容器中创建Bean
+		所以要求Bean中必须有无参数的构造器
+		id: 标志容器中的bean, id唯一
+	 -->
+	<bean id="helloWorld" class="com.hello.HelloWorld">
+		<property name="username" value="Hello fj!!!" />
+		<property name="password" value="pass123456" />
+	</bean>
+	
+	<!-- 通过构造方法来配置bean的属性 -->
+	<bean id = "car1" class="com.ioc.Car">
+		<constructor-arg value="Audi" index="0"></constructor-arg>
+		<constructor-arg value="shanghai"></constructor-arg>
+		<constructor-arg value="30000"></constructor-arg>
+	</bean>
+	
+	<!-- 使用构造器注入属性值可以指定参数的位置和参数的类型！以区分重载的构造方法 -->
+	<bean id = "car2" class="com.ioc.Car">
+		<constructor-arg value="Baoma" index="0"></constructor-arg>
+		<!-- 注入的方式可以使用value直接点进行配置 -->
+		<constructor-arg>
+			<value>Baoma</value>
+		</constructor-arg>
+		<constructor-arg value="250" type="int"></constructor-arg>
+	</bean>
+	
+	<!-- 引用其他的bean -->
+	<bean id="person" class="com.ioc.Person">
+		<property name="name" value="fj"></property>
+		<property name="age" value="24"></property>
+		<!-- 可以使用property 的ref 属性建立 bean 之间的引用关系 -->
+		<!-- <property name="car" ref="car2"></property>	 -->
+		
+		<!-- 内部bean ,内部bean不能被外部使用-->
+		<property name="car">
+			<bean id="car3" class="com.ioc.Car">
+				<constructor-arg value="Ford"></constructor-arg>
+				<constructor-arg value="shanghai"></constructor-arg>
+				<constructor-arg value="200" type = "int"></constructor-arg>
+			</bean>
+		</property>
+		<!-- 为级联属性赋值，注意：属性需要先初始化后才可以为级联属性赋值，否则会有异常 -->
+		<property name="car.price" value="2500000000"></property>
+	</bean>
+	
+	<!-- 测试如何配置集合list属性 -->
+	<bean id="person2" class="com.ioc.collection.Person">
+		<property name="name" value="cuidapanger"></property>
+		<property name="age" value="35"></property>
+		<property name="cars">
+			<list>
+				<ref bean="car1"></ref>
+				<ref bean="car2"></ref>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- 测试如何配置集合map属性 -->
+	<bean id="person3" class="com.ioc.collection.PersonMap">
+		<property name="name" value="Rose"></property>
+		<property name="age" value="18"></property>
+		<property name="cars">
+			<map>
+				<entry key="AA" value-ref="car1"></entry>
+				<entry key="BB" value-ref="car2"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 配置Properties属性 -->
+	<bean id="dataSource" class="com.properties.DataSource">
+		<property name="properties">
+			<!-- 使用props 和prop子节点来为Properties属性赋值 -->
+			<props>
+				<prop key="username">root</prop>
+				<prop key="password">123456</prop>
+				<prop key="jdbcUrl">jdbc:mysql:///test</prop>
+				<prop key="driverClass">com.mysql.jdbc.Driver</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 配置单例的集合bean,以供多个bean进行引用，需要导入util的命名空间 -->
+	<util:list id="cars">
+		<ref bean="car1"></ref>
+		<ref bean="car2"></ref>
+	</util:list>
+	
+	<bean id="person4" class="com.ioc.collection.Person">
+		<property name="name" value="Jack"></property>
+		<property name="age" value="30"></property>
+		<property name="cars" ref="cars"></property>
+	</bean>
+	
+	<!-- 通过P 命名空间为bean 的属性赋值，需要先导入p命名空间 -->
+	<bean id="car4" class="com.ioc.Car" p:brand="AA" p:corp="bb" p:price="12" p:maxSpeed="1222"> 	</bean>
+</beans>

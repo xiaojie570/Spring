@@ -1,0 +1,28 @@
+<beans xmlns = "http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="address1" class="com.spel.Address">
+		<!-- 使用spel 为属性赋一个字面值 -->
+		<property name="city" value="#{'BeiJing'}"></property>
+		<property name="street" value="WuDaoKou"></property>
+	</bean>
+	
+	<bean id="car" class="com.spel.Car">
+		<property name="brand" value="Audi" ></property>
+		<property name="price" value="500000"></property>
+		<property name="tyre" value="#{T(java.lang.Math).PI * 80}"></property>
+	</bean>
+	
+	<bean id="person" class="com.spel.Person">
+		<!-- 使用 Spel 来应用其他的bean -->
+		<property name="car" value="#{car}"></property>
+		<property name="city" value="#{address.city}"></property>
+		<!-- 在SpEl中使用运算符 -->
+		<property name="info" value="#{car.price > 30000? '金领':'白领'}"></property>
+	</bean>
+	
+</beans>

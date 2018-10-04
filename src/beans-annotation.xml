@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 在配置Spring配置文件xml命名空间时xsi:schemaLocation中的属性要一一对应（注意顺序） -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	">
+	
+	<!-- 一：
+		指定Spring IOC 容器扫描的包 
+		指我将扫描该包，还会扫描该包下的子包
+	-->
+	<!-- <context:component-scan base-package="com.annotation"></context:component-scan> -->
+	
+	
+	<!--二：
+		可以通过resource-pattern 指定扫描的资源 
+		只能扫描com.annotation.repository/*.class下的包 
+	-->
+	<!-- 
+	<context:component-scan base-package="com.annotation"
+		resource-pattern="repository/*.class">
+	</context:component-scan> 
+	-->
+	
+	<!--三：
+		context:exclude-filter 子节点指定排除哪些指定表达式的组件
+		context:include-filter 子节点指定包含哪些指定表达式的组件。该子节点需要user-default-filters联合使用，将其值设置为false
+	  -->
+	<context:component-scan base-package="com.annotation">
+	<!-- 		
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository"/>
+	 -->
+ 		<!-- <context:exclude-filter type="assignable"
+ 			expression="com.annotation.repository.UserRepository"/> -->
+ 	</context:component-scan>
+	
+</beans>
